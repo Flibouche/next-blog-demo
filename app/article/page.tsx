@@ -7,11 +7,18 @@ const ArticlePage = async () => {
     const articles = await db.article.findMany({
         orderBy: {
             createdAt: 'desc'
+        },
+        include: {
+            tags: {
+                include: {
+                    tag: true
+                }
+            }
         }
-    }); 
+    });
 
     return (
-        <div>
+        <>
             <h1 className='text-2xl font-bold uppercase'>Blog</h1>
 
             {/* Afficher la liste des articles */}
@@ -19,11 +26,19 @@ const ArticlePage = async () => {
                 <div key={article.id} className='mb-6'>
                     {/* Titre de l'article */}
                     <h2 className='text-2xl font-semibold text-emerald-700'>{article.title}</h2>
+                    {/* Date de création de l'article */}
+                    <p>{article.createdAt.toLocaleDateString()} {article.createdAt.toLocaleTimeString()}</p>
+                    {/* Tags de l'article */}
+                    {article.tags.map((tagArticle: any) => (
+                        <span key={tagArticle.tag.id}>
+                            {tagArticle.tag.name}
+                        </span>
+                    ))}
                     {/* Texte de l'article */}
                     <p>{article.text}</p>
                 </div>
             ))}
-        </div>
+        </>
     )
 }
 
