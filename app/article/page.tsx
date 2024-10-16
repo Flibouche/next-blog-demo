@@ -1,6 +1,7 @@
 "use client";
 
 import ArticleCard from '@/components/ArticleCard';
+import Button from '@/components/Button';
 import React, { useEffect, useState } from 'react';
 
 const ArticlePage = () => {
@@ -34,12 +35,15 @@ const ArticlePage = () => {
 
     return (
         <>
+            <Button href='http://elan-formation.fr' label="Retour" />
             <h1 className='text-2xl font-bold uppercase m-5'>Blog</h1>
 
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
                 {/* Afficher la liste des articles */}
                 {articles.map((article: any) => (
-                    <ArticleCard article={article} />
+                    <>
+                        <ArticleCard article={article} />
+                    </>
                 ))}
             </div>
         </>

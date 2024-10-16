@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { formatDate } from '@/lib/utils';
+import Button from './Button';
 
 const ArticleCard: FunctionComponent<any> = ({ article }) => {
     return (
@@ -26,6 +27,8 @@ const ArticleCard: FunctionComponent<any> = ({ article }) => {
 
             {/* Texte de l'article */}
             <p className='line-clamp-4'>{article.text}</p>
+
+            <Button href='/contact' label='Lire plus...' />
         </div>
     )
 }
