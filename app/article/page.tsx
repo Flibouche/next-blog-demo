@@ -1,9 +1,9 @@
 "use client";
 
-import { db } from '@/lib/db';
+import { formatDate } from '@/lib/utils';
 import React, { useEffect, useState } from 'react';
 
-const ArticlePage = async () => {
+const ArticlePage = () => {
 
     // Version 1
     // Récupérer la liste des articles
@@ -30,7 +30,7 @@ const ArticlePage = async () => {
         }
 
         fetchArticles();
-    });
+    }, []);
 
     return (
         <>
@@ -41,16 +41,19 @@ const ArticlePage = async () => {
                 <div key={article.id} className='mb-6'>
                     {/* Titre de l'article */}
                     <h2 className='text-2xl font-semibold text-emerald-700'>{article.title}</h2>
+
                     {/* Date de création de l'article */}
                     {article.createdAt && (
-                        <p>{article.createdAt.toLocaleDateString()} {article.createdAt.toLocaleTimeString()}</p>
+                        <p>{formatDate(article.createdAt)}</p>
                     )}
+                    
                     {/* Tags de l'article */}
                     {article.tags.map((tagArticle: any) => (
                         <span key={tagArticle.tag.id}>
                             {tagArticle.tag.name}
                         </span>
                     ))}
+
                     {/* Texte de l'article */}
                     <p>{article.text}</p>
                 </div>
