@@ -1,20 +1,35 @@
+"use client";
+
 import { db } from '@/lib/db';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ArticlePage = async () => {
 
+    // Version 1
     // Récupérer la liste des articles
-    const articles = await db.article.findMany({
-        orderBy: {
-            createdAt: 'desc'
-        },
-        include: {
-            tags: {
-                include: {
-                    tag: true
-                }
-            }
+    // const articles = await db.article.findMany({
+    //     orderBy: {
+    //         createdAt: 'desc'
+    //     },
+    //     include: {
+    //         tags: {
+    //             include: {
+    //                 tag: true
+    //             }
+    //         }
+    //     }
+    // });
+
+    // Version 2 : Hooks
+    const [articles, setArticles] = useState([]);
+    useEffect(() => {
+        const fetchArticles = async () => {
+            const response = await fetch('/api/article');
+            const data = await response.json();
+            setArticles(data);
         }
+
+        fetchArticles();
     });
 
     return (
@@ -27,7 +42,9 @@ const ArticlePage = async () => {
                     {/* Titre de l'article */}
                     <h2 className='text-2xl font-semibold text-emerald-700'>{article.title}</h2>
                     {/* Date de création de l'article */}
-                    <p>{article.createdAt.toLocaleDateString()} {article.createdAt.toLocaleTimeString()}</p>
+                    {article.createdAt && (
+                        <p>{article.createdAt.toLocaleDateString()} {article.createdAt.toLocaleTimeString()}</p>
+                    )}
                     {/* Tags de l'article */}
                     {article.tags.map((tagArticle: any) => (
                         <span key={tagArticle.tag.id}>
